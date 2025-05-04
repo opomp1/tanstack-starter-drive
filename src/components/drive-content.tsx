@@ -15,11 +15,16 @@ export default function DriveContents(props: {
             <div className="breadcrumbs text-sm">
               <ul>
                 <li>
-                  <Link to="/f/root">My Drive</Link>
+                  <Link to="/drive">My Drive</Link>
                 </li>
                 {props.parents.map((parent) => (
                   <li>
-                    <Link to={`/f/${parent.id}`}>{parent.name}</Link>
+                    <Link
+                      to="/drive/$folderId"
+                      params={{ folderId: String(parent.id) }}
+                    >
+                      {parent.name}
+                    </Link>
                   </li>
                 ))}
               </ul>

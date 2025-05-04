@@ -12,11 +12,12 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthedImport } from './routes/_authed'
+import { Route as DriveRouteImport } from './routes/drive.route'
 import { Route as IndexImport } from './routes/index'
-import { Route as DriveDriveImport } from './routes/_drive/drive'
+import { Route as DriveIndexImport } from './routes/drive.index'
+import { Route as DriveFolderIdImport } from './routes/drive.$folderId'
 import { Route as AuthedPostsImport } from './routes/_authed/posts'
 import { Route as AuthedPostsIndexImport } from './routes/_authed/posts.index'
-import { Route as DriveFFolderIdImport } from './routes/_drive/f.$folderId'
 import { Route as AuthedProfileSplatImport } from './routes/_authed/profile.$'
 import { Route as AuthedPostsPostIdImport } from './routes/_authed/posts.$postId'
 
@@ -27,16 +28,28 @@ const AuthedRoute = AuthedImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const DriveRouteRoute = DriveRouteImport.update({
+  id: '/drive',
+  path: '/drive',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const DriveDriveRoute = DriveDriveImport.update({
-  id: '/_drive/drive',
-  path: '/drive',
-  getParentRoute: () => rootRoute,
+const DriveIndexRoute = DriveIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DriveRouteRoute,
+} as any)
+
+const DriveFolderIdRoute = DriveFolderIdImport.update({
+  id: '/$folderId',
+  path: '/$folderId',
+  getParentRoute: () => DriveRouteRoute,
 } as any)
 
 const AuthedPostsRoute = AuthedPostsImport.update({
@@ -49,12 +62,6 @@ const AuthedPostsIndexRoute = AuthedPostsIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthedPostsRoute,
-} as any)
-
-const DriveFFolderIdRoute = DriveFFolderIdImport.update({
-  id: '/_drive/f/$folderId',
-  path: '/f/$folderId',
-  getParentRoute: () => rootRoute,
 } as any)
 
 const AuthedProfileSplatRoute = AuthedProfileSplatImport.update({
@@ -80,6 +87,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/drive': {
+      id: '/drive'
+      path: '/drive'
+      fullPath: '/drive'
+      preLoaderRoute: typeof DriveRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/_authed': {
       id: '/_authed'
       path: ''
@@ -94,12 +108,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedPostsImport
       parentRoute: typeof AuthedImport
     }
-    '/_drive/drive': {
-      id: '/_drive/drive'
-      path: '/drive'
-      fullPath: '/drive'
-      preLoaderRoute: typeof DriveDriveImport
-      parentRoute: typeof rootRoute
+    '/drive/$folderId': {
+      id: '/drive/$folderId'
+      path: '/$folderId'
+      fullPath: '/drive/$folderId'
+      preLoaderRoute: typeof DriveFolderIdImport
+      parentRoute: typeof DriveRouteImport
+    }
+    '/drive/': {
+      id: '/drive/'
+      path: '/'
+      fullPath: '/drive/'
+      preLoaderRoute: typeof DriveIndexImport
+      parentRoute: typeof DriveRouteImport
     }
     '/_authed/posts/$postId': {
       id: '/_authed/posts/$postId'
@@ -115,13 +136,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedProfileSplatImport
       parentRoute: typeof AuthedImport
     }
-    '/_drive/f/$folderId': {
-      id: '/_drive/f/$folderId'
-      path: '/f/$folderId'
-      fullPath: '/f/$folderId'
-      preLoaderRoute: typeof DriveFFolderIdImport
-      parentRoute: typeof rootRoute
-    }
     '/_authed/posts/': {
       id: '/_authed/posts/'
       path: '/'
@@ -133,6 +147,20 @@ declare module '@tanstack/react-router' {
 }
 
 // Create and export the route tree
+
+interface DriveRouteRouteChildren {
+  DriveFolderIdRoute: typeof DriveFolderIdRoute
+  DriveIndexRoute: typeof DriveIndexRoute
+}
+
+const DriveRouteRouteChildren: DriveRouteRouteChildren = {
+  DriveFolderIdRoute: DriveFolderIdRoute,
+  DriveIndexRoute: DriveIndexRoute,
+}
+
+const DriveRouteRouteWithChildren = DriveRouteRoute._addFileChildren(
+  DriveRouteRouteChildren,
+)
 
 interface AuthedPostsRouteChildren {
   AuthedPostsPostIdRoute: typeof AuthedPostsPostIdRoute
@@ -163,34 +191,36 @@ const AuthedRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/drive': typeof DriveRouteRouteWithChildren
   '': typeof AuthedRouteWithChildren
   '/posts': typeof AuthedPostsRouteWithChildren
-  '/drive': typeof DriveDriveRoute
+  '/drive/$folderId': typeof DriveFolderIdRoute
+  '/drive/': typeof DriveIndexRoute
   '/posts/$postId': typeof AuthedPostsPostIdRoute
   '/profile/$': typeof AuthedProfileSplatRoute
-  '/f/$folderId': typeof DriveFFolderIdRoute
   '/posts/': typeof AuthedPostsIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthedRouteWithChildren
-  '/drive': typeof DriveDriveRoute
+  '/drive/$folderId': typeof DriveFolderIdRoute
+  '/drive': typeof DriveIndexRoute
   '/posts/$postId': typeof AuthedPostsPostIdRoute
   '/profile/$': typeof AuthedProfileSplatRoute
-  '/f/$folderId': typeof DriveFFolderIdRoute
   '/posts': typeof AuthedPostsIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/drive': typeof DriveRouteRouteWithChildren
   '/_authed': typeof AuthedRouteWithChildren
   '/_authed/posts': typeof AuthedPostsRouteWithChildren
-  '/_drive/drive': typeof DriveDriveRoute
+  '/drive/$folderId': typeof DriveFolderIdRoute
+  '/drive/': typeof DriveIndexRoute
   '/_authed/posts/$postId': typeof AuthedPostsPostIdRoute
   '/_authed/profile/$': typeof AuthedProfileSplatRoute
-  '/_drive/f/$folderId': typeof DriveFFolderIdRoute
   '/_authed/posts/': typeof AuthedPostsIndexRoute
 }
 
@@ -198,47 +228,47 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/drive'
     | ''
     | '/posts'
-    | '/drive'
+    | '/drive/$folderId'
+    | '/drive/'
     | '/posts/$postId'
     | '/profile/$'
-    | '/f/$folderId'
     | '/posts/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | ''
+    | '/drive/$folderId'
     | '/drive'
     | '/posts/$postId'
     | '/profile/$'
-    | '/f/$folderId'
     | '/posts'
   id:
     | '__root__'
     | '/'
+    | '/drive'
     | '/_authed'
     | '/_authed/posts'
-    | '/_drive/drive'
+    | '/drive/$folderId'
+    | '/drive/'
     | '/_authed/posts/$postId'
     | '/_authed/profile/$'
-    | '/_drive/f/$folderId'
     | '/_authed/posts/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DriveRouteRoute: typeof DriveRouteRouteWithChildren
   AuthedRoute: typeof AuthedRouteWithChildren
-  DriveDriveRoute: typeof DriveDriveRoute
-  DriveFFolderIdRoute: typeof DriveFFolderIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DriveRouteRoute: DriveRouteRouteWithChildren,
   AuthedRoute: AuthedRouteWithChildren,
-  DriveDriveRoute: DriveDriveRoute,
-  DriveFFolderIdRoute: DriveFFolderIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -252,13 +282,19 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/_authed",
-        "/_drive/drive",
-        "/_drive/f/$folderId"
+        "/drive",
+        "/_authed"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/drive": {
+      "filePath": "drive.route.tsx",
+      "children": [
+        "/drive/$folderId",
+        "/drive/"
+      ]
     },
     "/_authed": {
       "filePath": "_authed.tsx",
@@ -275,8 +311,13 @@ export const routeTree = rootRoute
         "/_authed/posts/"
       ]
     },
-    "/_drive/drive": {
-      "filePath": "_drive/drive.tsx"
+    "/drive/$folderId": {
+      "filePath": "drive.$folderId.tsx",
+      "parent": "/drive"
+    },
+    "/drive/": {
+      "filePath": "drive.index.tsx",
+      "parent": "/drive"
     },
     "/_authed/posts/$postId": {
       "filePath": "_authed/posts.$postId.tsx",
@@ -285,9 +326,6 @@ export const routeTree = rootRoute
     "/_authed/profile/$": {
       "filePath": "_authed/profile.$.tsx",
       "parent": "/_authed"
-    },
-    "/_drive/f/$folderId": {
-      "filePath": "_drive/f.$folderId.tsx"
     },
     "/_authed/posts/": {
       "filePath": "_authed/posts.index.tsx",

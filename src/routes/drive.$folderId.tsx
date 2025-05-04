@@ -1,10 +1,19 @@
-import { createFileRoute } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  ErrorComponent,
+  ErrorComponentProps,
+} from "@tanstack/react-router";
 import DriveContents from "~/components/drive-content";
+import { NotFound } from "~/components/NotFound";
+import { QUERIES } from "~/db/queries";
 import { mockFiles, mockFolders } from "~/lib/mock-data";
-import { QUERIES } from "~/server/db/queries";
 
-export const Route = createFileRoute("/_drive/f/$folderId")({
-  component: RouteComponent,
+export const Route = createFileRoute("/drive/$folderId")({
+  errorComponent: DriveErrorComponent,
+  component: DriveFolderComponent,
+  notFoundComponent: () => {
+    return <NotFound>Post not found</NotFound>;
+  },
   loader: async ({ params }) => {
     const folderId = params.folderId;
 
@@ -16,7 +25,11 @@ export const Route = createFileRoute("/_drive/f/$folderId")({
   },
 });
 
-function RouteComponent() {
+export function DriveErrorComponent({ error }: ErrorComponentProps) {
+  return <ErrorComponent error={error} />;
+}
+
+function DriveFolderComponent() {
   const { files, folders, parents } = Route.useLoaderData();
 
   return (
