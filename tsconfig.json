@@ -1,5 +1,5 @@
 {
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", "src/routes/_drive/f.$folderId.loader.sx"],
   "compilerOptions": {
     "strict": true,
     "esModuleInterop": true,
