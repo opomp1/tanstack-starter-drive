@@ -1,4 +1,4 @@
-import { File, Folder } from "~/lib/mock-data";
+import type { File, Folder } from "~/lib/mock-data";
 import { FileRow, FolderRow } from "./file-row";
 import { Link } from "@tanstack/react-router";
 

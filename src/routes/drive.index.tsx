@@ -15,7 +15,6 @@ export const Route = createFileRoute("/drive/")({
   // },
   loader: async ({ context }) => {
     const userId = context.userId;
-    console.log(userId);
 
     if (!userId) {
       throw new Error("User not authenticated");
@@ -24,8 +23,6 @@ export const Route = createFileRoute("/drive/")({
     const { folders, files } = await getDataInRootFolder({ data: userId });
 
     const parents = [{}];
-
-    console.log("folder", folders);
 
     return { folders, files, parents };
   },

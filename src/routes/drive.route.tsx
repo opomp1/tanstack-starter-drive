@@ -1,19 +1,16 @@
 import { SignIn, useAuth } from "@clerk/tanstack-react-start";
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/drive")({
   component: DriveComponent,
+  loader: async ({ context }) => {
+    if (!context.userId) {
+      throw redirect({ to: "/sign-in" });
+    }
+  },
 });
 
 function DriveComponent() {
-  const user = useAuth();
-  if (!user.userId) {
-    return (
-      <div className="flex items-center justify-center p-12">
-        <SignIn routing="hash" forceRedirectUrl={"/drive"} />
-      </div>
-    );
-  }
   return (
     <div>
       <Outlet />

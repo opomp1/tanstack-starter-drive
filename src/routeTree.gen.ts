@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SignInImport } from './routes/sign-in'
 import { Route as AuthedImport } from './routes/_authed'
 import { Route as DriveRouteImport } from './routes/drive.route'
 import { Route as IndexImport } from './routes/index'
@@ -22,6 +23,12 @@ import { Route as AuthedProfileSplatImport } from './routes/_authed/profile.$'
 import { Route as AuthedPostsPostIdImport } from './routes/_authed/posts.$postId'
 
 // Create/Update Routes
+
+const SignInRoute = SignInImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const AuthedRoute = AuthedImport.update({
   id: '/_authed',
@@ -99,6 +106,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AuthedImport
+      parentRoute: typeof rootRoute
+    }
+    '/sign-in': {
+      id: '/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof SignInImport
       parentRoute: typeof rootRoute
     }
     '/_authed/posts': {
@@ -193,6 +207,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/drive': typeof DriveRouteRouteWithChildren
   '': typeof AuthedRouteWithChildren
+  '/sign-in': typeof SignInRoute
   '/posts': typeof AuthedPostsRouteWithChildren
   '/drive/$folderId': typeof DriveFolderIdRoute
   '/drive/': typeof DriveIndexRoute
@@ -204,6 +219,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthedRouteWithChildren
+  '/sign-in': typeof SignInRoute
   '/drive/$folderId': typeof DriveFolderIdRoute
   '/drive': typeof DriveIndexRoute
   '/posts/$postId': typeof AuthedPostsPostIdRoute
@@ -216,6 +232,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/drive': typeof DriveRouteRouteWithChildren
   '/_authed': typeof AuthedRouteWithChildren
+  '/sign-in': typeof SignInRoute
   '/_authed/posts': typeof AuthedPostsRouteWithChildren
   '/drive/$folderId': typeof DriveFolderIdRoute
   '/drive/': typeof DriveIndexRoute
@@ -230,6 +247,7 @@ export interface FileRouteTypes {
     | '/'
     | '/drive'
     | ''
+    | '/sign-in'
     | '/posts'
     | '/drive/$folderId'
     | '/drive/'
@@ -240,6 +258,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | ''
+    | '/sign-in'
     | '/drive/$folderId'
     | '/drive'
     | '/posts/$postId'
@@ -250,6 +269,7 @@ export interface FileRouteTypes {
     | '/'
     | '/drive'
     | '/_authed'
+    | '/sign-in'
     | '/_authed/posts'
     | '/drive/$folderId'
     | '/drive/'
@@ -263,12 +283,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DriveRouteRoute: typeof DriveRouteRouteWithChildren
   AuthedRoute: typeof AuthedRouteWithChildren
+  SignInRoute: typeof SignInRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DriveRouteRoute: DriveRouteRouteWithChildren,
   AuthedRoute: AuthedRouteWithChildren,
+  SignInRoute: SignInRoute,
 }
 
 export const routeTree = rootRoute
@@ -283,7 +305,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/drive",
-        "/_authed"
+        "/_authed",
+        "/sign-in"
       ]
     },
     "/": {
@@ -302,6 +325,9 @@ export const routeTree = rootRoute
         "/_authed/posts",
         "/_authed/profile/$"
       ]
+    },
+    "/sign-in": {
+      "filePath": "sign-in.tsx"
     },
     "/_authed/posts": {
       "filePath": "_authed/posts.tsx",
