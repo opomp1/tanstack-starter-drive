@@ -66,11 +66,10 @@ export const Route = createRootRoute({
     ],
   }),
   beforeLoad: async () => {
-    const { userId } = await fetchClerkAuth();
-
-    return {
-      userId,
-    };
+    // const { userId } = await fetchClerkAuth();
+    // return {
+    //   userId,
+    // };
   },
   errorComponent: (props) => {
     return (
