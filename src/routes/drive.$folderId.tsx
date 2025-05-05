@@ -19,6 +19,11 @@ export const Route = createFileRoute("/drive/$folderId")({
     const folderId = parseInt(params.folderId);
 
     const { folders, files } = await getAllDataFromFolderId({ data: folderId });
+
+    // if (folders.length === 0) {
+    //   throw new Error("Folder not Found");
+    // }
+
     const parents = await getAllParentsForFolder({ data: folderId });
 
     return { folders, files, parents, folderId };
@@ -26,7 +31,11 @@ export const Route = createFileRoute("/drive/$folderId")({
 });
 
 export function DriveErrorComponent({ error }: ErrorComponentProps) {
-  return <ErrorComponent error={error} />;
+  return (
+    <NotFound>
+      <ErrorComponent error={error} />
+    </NotFound>
+  );
 }
 
 function DriveFolderComponent() {
@@ -38,7 +47,7 @@ function DriveFolderComponent() {
         files={files}
         folders={folders}
         parents={parents}
-        currentFolderId={1125899906842648}
+        currentFolderId={folderId}
       />
     </div>
   );

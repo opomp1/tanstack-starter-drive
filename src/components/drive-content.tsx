@@ -22,7 +22,7 @@ export default function DriveContents(props: {
                   <Link to="/drive">My Drive</Link>
                 </li>
                 {props.parents?.map((parent) => (
-                  <li>
+                  <li key={parent.id}>
                     <Link
                       to="/drive/$folderId"
                       params={{ folderId: String(parent.id) }}

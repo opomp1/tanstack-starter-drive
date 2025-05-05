@@ -6,13 +6,6 @@ import { getDataInRootFolder } from "~/utils/data";
 
 export const Route = createFileRoute("/drive/")({
   component: DriveIndexComponent,
-  // loader: async () => {
-  //   const files = mockFiles.filter((file) => file.parent === "root");
-  //   const folders = mockFolders.filter((folder) => folder.parent === "root");
-  //   const parents = QUERIES.getAllParensForFolder("root");
-
-  //   return { files, folders, parents };
-  // },
   loader: async ({ context }) => {
     const userId = context.userId;
 

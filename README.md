@@ -1,9 +1,4 @@
-Database
-[] Add react query
-[] Fetch Function
+[] react query
 
-[] check if user have root folder if not
-[] Delete feature
-
-UploadThing
-[] Add uploadthin
+[] refresh when upload
+[] onbaord error
