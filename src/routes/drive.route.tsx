@@ -10,7 +10,7 @@ function DriveComponent() {
   if (!user.userId) {
     return (
       <div className="flex items-center justify-center p-12">
-        <SignIn routing="hash" forceRedirectUrl={window.location.href} />
+        <SignIn routing="hash" forceRedirectUrl={"/drive"} />
       </div>
     );
   }
