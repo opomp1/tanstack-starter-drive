@@ -3,7 +3,6 @@ import { createRouteHandler } from "uploadthing/server";
 import { uploadRouter } from "~/db/uploadthing";
 
 const handlers = createRouteHandler({ router: uploadRouter });
-console.log("APIIIIIIIIIIIIIII");
 
 export const APIRoute = createAPIFileRoute("/api/uploadthing")({
   GET: handlers,

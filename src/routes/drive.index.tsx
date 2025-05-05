@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import DriveContents from "~/components/drive-content";
 import { QUERIES } from "~/db/queries";
 import { mockFiles, mockFolders } from "~/lib/mock-data";
-import { getAllFolder, getDataInRootFolder } from "~/utils/data";
+import { getDataInRootFolder } from "~/utils/data";
 
 export const Route = createFileRoute("/drive/")({
   component: DriveIndexComponent,
@@ -20,18 +20,25 @@ export const Route = createFileRoute("/drive/")({
       throw new Error("User not authenticated");
     }
 
-    const { folders, files } = await getDataInRootFolder({ data: userId });
+    const { folders, files, rootFolder } = await getDataInRootFolder({
+      data: userId,
+    });
 
-    return { folders, files };
+    return { folders, files, rootFolder };
   },
 });
 
 function DriveIndexComponent() {
-  const { files, folders } = Route.useLoaderData();
+  const { files, folders, rootFolder } = Route.useLoaderData();
 
   return (
     <div>
-      <DriveContents files={files} folders={folders} parents={null} />
+      <DriveContents
+        files={files}
+        folders={folders}
+        parents={null}
+        currentFolderId={rootFolder[0].id}
+      />
     </div>
   );
 }

@@ -8,6 +8,8 @@ export default function DriveContents(props: {
   files: (typeof files_table.$inferSelect)[];
   folders: (typeof folders_table.$inferSelect)[];
   parents: (typeof folders_table.$inferSelect)[] | null;
+
+  currentFolderId: number;
 }) {
   return (
     <div className="min-h-screen p-8 text-gray-100">
@@ -59,7 +61,7 @@ export default function DriveContents(props: {
           // onClientUploadComplete={() => {
           //   navigate.refresh();
           // }}
-          // input={{ folderId: props.currentFolderId }}
+          input={{ folderId: props.currentFolderId }}
         />
       </div>
     </div>

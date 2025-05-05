@@ -9,11 +9,6 @@ import {
   folders_table as foldersSchema,
 } from "~/db/schema";
 
-export const getAllFolder = createServerFn().handler(async () => {
-  const data = await db.select().from(foldersSchema);
-  return data;
-});
-
 export const getDataInRootFolder = createServerFn()
   .validator((userId: string) => userId)
   .handler(async (ctx) => {
@@ -44,12 +39,12 @@ export const getDataInRootFolder = createServerFn()
       .where(
         and(
           eq(filesSchema.ownerId, userId),
-          eq(filesSchema.parent, isNull(filesSchema.parent))
+          eq(filesSchema.parent, rootFolder[0].id)
         )
       )
       .orderBy(filesSchema.id);
 
-    return { folders, files };
+    return { folders, files, rootFolder };
   });
 
 export const getAllDataFromFolderId = createServerFn()

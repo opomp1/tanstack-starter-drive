@@ -20,9 +20,8 @@ export const Route = createFileRoute("/drive/$folderId")({
 
     const { folders, files } = await getAllDataFromFolderId({ data: folderId });
     const parents = await getAllParentsForFolder({ data: folderId });
-    console.log("parent", parents);
 
-    return { folders, files, parents };
+    return { folders, files, parents, folderId };
   },
 });
 
@@ -31,11 +30,16 @@ export function DriveErrorComponent({ error }: ErrorComponentProps) {
 }
 
 function DriveFolderComponent() {
-  const { files, folders, parents } = Route.useLoaderData();
+  const { files, folders, parents, folderId } = Route.useLoaderData();
 
   return (
     <div>
-      <DriveContents files={files} folders={folders} parents={parents} />
+      <DriveContents
+        files={files}
+        folders={folders}
+        parents={parents}
+        currentFolderId={1125899906842648}
+      />
     </div>
   );
 }
