@@ -1,11 +1,12 @@
 import type { File, Folder } from "~/lib/mock-data";
 import { FileRow, FolderRow } from "./file-row";
 import { Link } from "@tanstack/react-router";
+import { files_table, folders_table } from "~/db/schema";
 
 export default function DriveContents(props: {
-  files: File[];
-  folders: Folder[];
-  parents: Folder[];
+  files: (typeof files_table.$inferSelect)[];
+  folders: (typeof folders_table.$inferSelect)[];
+  parents: (typeof folders_table.$inferSelect)[] | null;
 }) {
   return (
     <div className="min-h-screen p-8 text-gray-100">
@@ -17,7 +18,7 @@ export default function DriveContents(props: {
                 <li>
                   <Link to="/drive">My Drive</Link>
                 </li>
-                {props.parents.map((parent) => (
+                {props.parents?.map((parent) => (
                   <li>
                     <Link
                       to="/drive/$folderId"

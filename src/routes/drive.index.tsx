@@ -22,18 +22,16 @@ export const Route = createFileRoute("/drive/")({
 
     const { folders, files } = await getDataInRootFolder({ data: userId });
 
-    const parents = [{}];
-
-    return { folders, files, parents };
+    return { folders, files };
   },
 });
 
 function DriveIndexComponent() {
-  const { files, folders, parents } = Route.useLoaderData();
+  const { files, folders } = Route.useLoaderData();
 
   return (
     <div>
-      <DriveContents files={files} folders={folders} parents={parents} />
+      <DriveContents files={files} folders={folders} parents={null} />
     </div>
   );
 }

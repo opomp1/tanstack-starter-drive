@@ -4,11 +4,12 @@ import { Folder as FolderIcon, FileIcon, Trash2Icon } from "lucide-react";
 
 // import { Button } from "~/components/ui/button";
 import { Link } from "@tanstack/react-router";
+import { files_table, folders_table } from "~/db/schema";
 
 // import type { files_table, folders_table } from "~/server/db/schema";
 // import { deleteFile } from "~/server/actions";
 
-export function FileRow(props: { file: FileType }) {
+export function FileRow(props: { file: typeof files_table.$inferSelect }) {
   const { file } = props;
   return (
     <li
@@ -44,7 +45,9 @@ export function FileRow(props: { file: FileType }) {
   );
 }
 
-export function FolderRow(props: { folder: FolderType }) {
+export function FolderRow(props: {
+  folder: typeof folders_table.$inferSelect;
+}) {
   const { folder } = props;
   return (
     <li
