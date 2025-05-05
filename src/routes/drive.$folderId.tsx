@@ -7,6 +7,7 @@ import DriveContents from "~/components/drive-content";
 import { NotFound } from "~/components/NotFound";
 import { QUERIES } from "~/db/queries";
 import { mockFiles, mockFolders } from "~/lib/mock-data";
+import { getAllDataFromFolderId, getAllParentsForFolder } from "~/utils/data";
 
 export const Route = createFileRoute("/drive/$folderId")({
   errorComponent: DriveErrorComponent,
@@ -15,13 +16,13 @@ export const Route = createFileRoute("/drive/$folderId")({
     return <NotFound>Post not found</NotFound>;
   },
   loader: async ({ params }) => {
-    const folderId = params.folderId;
+    const folderId = parseInt(params.folderId);
 
-    const files = mockFiles.filter((file) => file.parent === folderId);
-    const folders = mockFolders.filter((folder) => folder.parent === folderId);
-    const parents = QUERIES.getAllParensForFolder(folderId);
+    const { folders, files } = await getAllDataFromFolderId({ data: folderId });
+    const parents = await getAllParentsForFolder({ data: folderId });
+    console.log("parent", parents);
 
-    return { files, folders, parents };
+    return { folders, files, parents };
   },
 });
 
