@@ -10,9 +10,9 @@ export function Navbar() {
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="flex-1">
-        <Link to="/" className="btn btn-ghost text-xl">
+        <a href="/" className="btn btn-ghost text-xl">
           TanStack Drive
-        </Link>
+        </a>
       </div>
       <div className="mr-4">
         <div>

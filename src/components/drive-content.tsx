@@ -2,6 +2,7 @@ import type { File, Folder } from "~/lib/mock-data";
 import { FileRow, FolderRow } from "./file-row";
 import { Link } from "@tanstack/react-router";
 import { files_table, folders_table } from "~/db/schema";
+import { UploadButton } from "~/utils/uploadthing";
 
 export default function DriveContents(props: {
   files: (typeof files_table.$inferSelect)[];
@@ -52,14 +53,14 @@ export default function DriveContents(props: {
             ))}
           </ul>
         </div>
-        {/* <UploadButton
+        <UploadButton
           className="mt-8"
           endpoint="driveUploader"
-          onClientUploadComplete={() => {
-            navigate.refresh();
-          }}
-          input={{ folderId: props.currentFolderId }}
-        /> */}
+          // onClientUploadComplete={() => {
+          //   navigate.refresh();
+          // }}
+          // input={{ folderId: props.currentFolderId }}
+        />
       </div>
     </div>
   );
