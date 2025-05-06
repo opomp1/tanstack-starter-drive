@@ -22,13 +22,15 @@ export const getDataInRootFolder = createServerFn()
           eq(foldersSchema.parent, isNull(foldersSchema.parent))
         )
       );
+
+    const rootFolderId = rootFolder[0].id;
     const folders = await db
       .select()
       .from(foldersSchema)
       .where(
         and(
           eq(foldersSchema.ownerId, userId),
-          eq(foldersSchema.parent, rootFolder[0].id)
+          eq(foldersSchema.parent, rootFolderId)
         )
       )
       .orderBy(foldersSchema.id);
@@ -39,12 +41,12 @@ export const getDataInRootFolder = createServerFn()
       .where(
         and(
           eq(filesSchema.ownerId, userId),
-          eq(filesSchema.parent, rootFolder[0].id)
+          eq(filesSchema.parent, rootFolderId)
         )
       )
       .orderBy(filesSchema.id);
 
-    return { folders, files, rootFolder };
+    return { folders, files, rootFolderId };
   });
 
 export const getAllDataFromFolderId = createServerFn()
@@ -114,7 +116,7 @@ export const getRootFolder = createServerFn()
 export const onboardUser = createServerFn()
   .validator((userId: string) => userId)
   .handler(async (ctx) => {
-    console.log("---Creating start folders---");
+    console.log("---======Creating start folders=====---");
     const userId = ctx.data;
     const rootFolder = await db
       .insert(foldersSchema)

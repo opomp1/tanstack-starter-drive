@@ -5,13 +5,16 @@ import { redirect } from "@tanstack/react-router";
 
 export const authStateFn = createServerFn({ method: "GET" }).handler(
   async () => {
-    // Use `getAuth()` to retrieve the user's ID
-    const { userId } = await getAuth(getWebRequest());
+    const req = getWebRequest();
+    if (!req) {
+      // fallback just in case
+      throw new Error("Request context not available");
+    }
 
-    // Protect the server function by checking if the user is signed in
+    const { userId } = await getAuth(req);
+    console.log("userId from authStateFn:", userId);
+
     if (!userId) {
-      // This might error if you're redirecting to a path that doesn't exist yet
-      // You can create a sign-in route to handle this
       throw redirect({
         to: "/sign-in",
       });

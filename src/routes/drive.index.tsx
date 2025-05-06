@@ -13,16 +13,16 @@ export const Route = createFileRoute("/drive/")({
       throw new Error("User not authenticated");
     }
 
-    const { folders, files, rootFolder } = await getDataInRootFolder({
+    const { folders, files, rootFolderId } = await getDataInRootFolder({
       data: userId,
     });
 
-    return { folders, files, rootFolder };
+    return { folders, files, rootFolderId };
   },
 });
 
 function DriveIndexComponent() {
-  const { files, folders, rootFolder } = Route.useLoaderData();
+  const { files, folders, rootFolderId } = Route.useLoaderData();
 
   return (
     <div>
@@ -30,7 +30,7 @@ function DriveIndexComponent() {
         files={files}
         folders={folders}
         parents={null}
-        currentFolderId={rootFolder[0].id}
+        currentFolderId={rootFolderId}
       />
     </div>
   );
