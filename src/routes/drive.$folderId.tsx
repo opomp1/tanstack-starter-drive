@@ -19,8 +19,9 @@ export const Route = createFileRoute("/drive/$folderId")({
     return <NotFound>Post not found</NotFound>;
   },
   loader: async ({ params: { folderId }, context }) => {
-    await context.queryClient.ensureQueryData(folderQuery(folderId));
-    return folderId;
+    const parsedFolderId = parseInt(folderId);
+    await context.queryClient.ensureQueryData(folderQuery(parsedFolderId));
+    return parsedFolderId;
   },
 });
 

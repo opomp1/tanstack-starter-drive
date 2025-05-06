@@ -1,4 +1,4 @@
-import { queryOptions } from "@tanstack/react-query";
+import { queryOptions, useQueryClient } from "@tanstack/react-query";
 import {
   getDataInRootFolder,
   getAllDataFromFolderId,
@@ -11,13 +11,23 @@ export const rootFolderQuery = (userId: string) =>
     queryFn: () => getDataInRootFolder({ data: userId }),
   });
 
-export const folderQuery = (folderId: string) =>
+export const folderQuery = (folderId: number) =>
   queryOptions({
     queryKey: ["folder", folderId],
     queryFn: async () => {
-      const id = parseInt(folderId);
-      const { folders, files } = await getAllDataFromFolderId({ data: id });
-      const parents = await getAllParentsForFolder({ data: id });
-      return { folders, files, parents, folderId: id };
+      const { folders, files } = await getAllDataFromFolderId({
+        data: folderId,
+      });
+      const parents = await getAllParentsForFolder({ data: folderId });
+      return { folders, files, parents, folderId: folderId };
     },
   });
+
+export const handleSuccess = async (isRoot: boolean, folderId: number) => {
+  const queryClient = useQueryClient();
+  if (isRoot) {
+    queryClient.invalidateQueries({ queryKey: ["root-folder"] });
+  } else {
+    queryClient.invalidateQueries({ queryKey: ["folder", folderId] });
+  }
+};

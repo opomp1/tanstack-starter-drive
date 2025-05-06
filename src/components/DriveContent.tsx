@@ -1,8 +1,9 @@
-import type { File, Folder } from "~/lib/mock-data";
 import { FileRow, FolderRow } from "./file-row";
 import { Link } from "@tanstack/react-router";
 import { files_table, folders_table } from "~/db/schema";
 import { UploadButton } from "~/utils/uploadthing";
+
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function DriveContents(props: {
   files: (typeof files_table.$inferSelect)[];
@@ -10,7 +11,9 @@ export default function DriveContents(props: {
   parents: (typeof folders_table.$inferSelect)[] | null;
 
   currentFolderId: number;
+  isRoot: boolean;
 }) {
+  const queryClient = useQueryClient();
   return (
     <div className="min-h-screen p-8 text-gray-100">
       <div className="mx-auto max-w-6xl">
@@ -58,9 +61,15 @@ export default function DriveContents(props: {
         <UploadButton
           className="mt-8"
           endpoint="driveUploader"
-          // onClientUploadComplete={() => {
-          //   navigate.refresh();
-          // }}
+          onClientUploadComplete={() => {
+            if (props.isRoot) {
+              queryClient.invalidateQueries({ queryKey: ["root-folder"] });
+            } else {
+              queryClient.invalidateQueries({
+                queryKey: ["folder", props.currentFolderId],
+              });
+            }
+          }}
           input={{ folderId: props.currentFolderId }}
         />
       </div>

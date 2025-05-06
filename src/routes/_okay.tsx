@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Suspense } from "react";
-import DriveContents from "~/components/drive-content";
+import DriveContents from "~/components/DriveContent";
 import DriveSkeleton from "~/components/DriveSkeleton";
 import { getDataInRootFolder } from "~/utils/data";
 

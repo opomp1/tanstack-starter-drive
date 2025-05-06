@@ -1,11 +1,11 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import DriveContents from "~/components/drive-content";
+import DriveContents from "~/components/DriveContent";
 import { folderQuery } from "~/queries/drive";
 
 export default function DriveFolderWithData({
   folderId,
 }: {
-  folderId: string;
+  folderId: number;
 }) {
   const { data } = useSuspenseQuery(folderQuery(folderId));
 
@@ -15,6 +15,7 @@ export default function DriveFolderWithData({
       folders={data.folders}
       parents={data.parents}
       currentFolderId={data.folderId}
+      isRoot={false}
     />
   );
 }
