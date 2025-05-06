@@ -8,12 +8,7 @@ export const Route = createFileRoute("/drive")({
   component: DriveComponent,
   beforeLoad: async () => await authStateFn(),
   loader: async ({ context }) => {
-    await authStateFn();
     const userId = context.userId;
-
-    if (!userId) {
-      return { userId: null, rootFolder: null };
-    }
 
     let rootFolder = await getRootFolder({ data: userId });
 
@@ -42,13 +37,6 @@ function DriveComponent() {
     );
   }
 
-  if (!rootFolder) {
-    return (
-      <div className="h-svh w-full flex justify-center items-center">
-        <Loader2 className="size-10  animate-spin" />
-      </div>
-    );
-  }
   return (
     <div>
       <Outlet />

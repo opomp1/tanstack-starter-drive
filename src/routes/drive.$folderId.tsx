@@ -5,8 +5,6 @@ import {
 } from "@tanstack/react-router";
 import DriveContents from "~/components/drive-content";
 import { NotFound } from "~/components/NotFound";
-import { QUERIES } from "~/db/queries";
-import { mockFiles, mockFolders } from "~/lib/mock-data";
 import { getAllDataFromFolderId, getAllParentsForFolder } from "~/utils/data";
 
 export const Route = createFileRoute("/drive/$folderId")({
