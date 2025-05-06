@@ -1,8 +1,9 @@
 import { SignIn, useAuth } from "@clerk/tanstack-react-start";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
+import { onboardUser } from "~/server/actions/user";
 import { authStateFn } from "~/utils/auth";
-import { getRootFolder, onboardUser } from "~/utils/data";
+import { getRootFolder } from "~/server/actions/data";
 
 export const Route = createFileRoute("/drive")({
   component: DriveComponent,

@@ -12,6 +12,7 @@ export default function DriveContents(props: {
 
   currentFolderId: number;
   isRoot: boolean;
+  userId: string;
 }) {
   const queryClient = useQueryClient();
   return (
@@ -54,7 +55,13 @@ export default function DriveContents(props: {
               <FolderRow key={folder.id} folder={folder} />
             ))}
             {props.files.map((file) => (
-              <FileRow key={file.id} file={file} />
+              <FileRow
+                key={file.id}
+                file={file}
+                isRoot={props.isRoot}
+                userId={props.userId}
+                currentFolderId={props.currentFolderId}
+              />
             ))}
           </ul>
         </div>

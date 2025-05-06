@@ -3,7 +3,7 @@ import {
   getDataInRootFolder,
   getAllDataFromFolderId,
   getAllParentsForFolder,
-} from "~/utils/data";
+} from "~/server/actions/data";
 
 export const rootFolderQuery = (userId: string) =>
   queryOptions({

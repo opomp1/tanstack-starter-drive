@@ -12,6 +12,7 @@ export default function DriveIndexWithData({ userId }: { userId: string }) {
       parents={null}
       currentFolderId={data.rootFolderId}
       isRoot={true}
+      userId={userId}
     />
   );
 }

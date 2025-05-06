@@ -4,8 +4,10 @@ import { folderQuery } from "~/queries/drive";
 
 export default function DriveFolderWithData({
   folderId,
+  userId,
 }: {
   folderId: number;
+  userId: string;
 }) {
   const { data } = useSuspenseQuery(folderQuery(folderId));
 
@@ -16,6 +18,7 @@ export default function DriveFolderWithData({
       parents={data.parents}
       currentFolderId={data.folderId}
       isRoot={false}
+      userId={userId}
     />
   );
 }

@@ -4,7 +4,6 @@ import {
   ErrorComponentProps,
 } from "@tanstack/react-router";
 import { Suspense } from "react";
-
 import { NotFound } from "~/components/NotFound";
 
 import { folderQuery } from "~/queries/drive";
@@ -20,8 +19,9 @@ export const Route = createFileRoute("/drive/$folderId")({
   },
   loader: async ({ params: { folderId }, context }) => {
     const parsedFolderId = parseInt(folderId);
+    const userId = context.userId;
     await context.queryClient.ensureQueryData(folderQuery(parsedFolderId));
-    return parsedFolderId;
+    return { parsedFolderId, userId };
   },
 });
 
@@ -34,11 +34,11 @@ export function DriveErrorComponent({ error }: ErrorComponentProps) {
 }
 
 function DriveFolderComponent() {
-  const folderId = Route.useLoaderData();
+  const { parsedFolderId, userId } = Route.useLoaderData();
 
   return (
     <Suspense fallback={<DriveSkeleton />}>
-      <DriveFolderWithData folderId={folderId} />
+      <DriveFolderWithData folderId={parsedFolderId} userId={userId} />
     </Suspense>
   );
 }

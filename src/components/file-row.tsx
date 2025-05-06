@@ -1,16 +1,34 @@
-import type { File as FileType, Folder as FolderType } from "~/lib/mock-data";
-
 import { Folder as FolderIcon, FileIcon, Trash2Icon } from "lucide-react";
-
-// import { Button } from "~/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import { files_table, folders_table } from "~/db/schema";
+import { deleteFile } from "~/server/actions/delete-file";
+import { useQueryClient } from "@tanstack/react-query";
 
-// import type { files_table, folders_table } from "~/server/db/schema";
-// import { deleteFile } from "~/server/actions";
+export function FileRow(props: {
+  file: typeof files_table.$inferSelect;
+  isRoot: boolean;
+  userId: string;
+  currentFolderId: number;
+}) {
+  const { userId, isRoot, file, currentFolderId } = props;
 
-export function FileRow(props: { file: typeof files_table.$inferSelect }) {
-  const { file } = props;
+  const queryClient = useQueryClient();
+
+  const handleDelete = async () => {
+    const confirmed = confirm("Are you sure you want to delete this file?");
+    if (!confirmed) return;
+
+    await deleteFile({ data: { fileId: file.id, userId } });
+
+    if (isRoot) {
+      queryClient.invalidateQueries({ queryKey: ["root-folder"] });
+    } else {
+      queryClient.invalidateQueries({
+        queryKey: ["folder", currentFolderId],
+      });
+    }
+  };
+
   return (
     <li
       key={file.id}
@@ -30,9 +48,7 @@ export function FileRow(props: { file: typeof files_table.$inferSelect }) {
         <div className="col-span-2 text-gray-400">file</div>
         <div className="col-span-3 text-gray-400">{file.size}</div>
         <div className="col-span-1 text-gray-400">
-          <button
-          //   variant="ghost" onClick={() => deleteFile(file.id)}
-          >
+          <button onClick={() => handleDelete()}>
             <Trash2Icon
               size={20}
               aria-label="Delete file"
