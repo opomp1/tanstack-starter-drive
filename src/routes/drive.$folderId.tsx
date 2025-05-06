@@ -3,9 +3,14 @@ import {
   ErrorComponent,
   ErrorComponentProps,
 } from "@tanstack/react-router";
-import DriveContents from "~/components/drive-content";
+import { Suspense } from "react";
+
 import { NotFound } from "~/components/NotFound";
-import { getAllDataFromFolderId, getAllParentsForFolder } from "~/utils/data";
+
+import { folderQuery } from "~/queries/drive";
+
+import DriveFolderWithData from "~/components/DriveFolderWithData";
+import DriveSkeleton from "~/components/DriveSkeleton";
 
 export const Route = createFileRoute("/drive/$folderId")({
   errorComponent: DriveErrorComponent,
@@ -13,18 +18,9 @@ export const Route = createFileRoute("/drive/$folderId")({
   notFoundComponent: () => {
     return <NotFound>Post not found</NotFound>;
   },
-  loader: async ({ params }) => {
-    const folderId = parseInt(params.folderId);
-
-    const { folders, files } = await getAllDataFromFolderId({ data: folderId });
-
-    // if (folders.length === 0) {
-    //   throw new Error("Folder not Found");
-    // }
-
-    const parents = await getAllParentsForFolder({ data: folderId });
-
-    return { folders, files, parents, folderId };
+  loader: async ({ params: { folderId }, context }) => {
+    await context.queryClient.ensureQueryData(folderQuery(folderId));
+    return folderId;
   },
 });
 
@@ -37,16 +33,11 @@ export function DriveErrorComponent({ error }: ErrorComponentProps) {
 }
 
 function DriveFolderComponent() {
-  const { files, folders, parents, folderId } = Route.useLoaderData();
+  const folderId = Route.useLoaderData();
 
   return (
-    <div>
-      <DriveContents
-        files={files}
-        folders={folders}
-        parents={parents}
-        currentFolderId={folderId}
-      />
-    </div>
+    <Suspense fallback={<DriveSkeleton />}>
+      <DriveFolderWithData folderId={folderId} />
+    </Suspense>
   );
 }

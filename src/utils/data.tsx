@@ -149,9 +149,3 @@ export const onboardUser = createServerFn()
 
     return rootFolderId;
   });
-
-export const foldersQueryOptions = () =>
-  queryOptions({
-    queryKey: ["folders"],
-    queryFn: () => getAllFolder(),
-  });

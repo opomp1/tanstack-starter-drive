@@ -1,37 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
-import DriveContents from "~/components/drive-content";
-import { QUERIES } from "~/db/queries";
-import { mockFiles, mockFolders } from "~/lib/mock-data";
-import { getDataInRootFolder } from "~/utils/data";
+import { Suspense } from "react";
+import DriveIndexWithData from "~/components/DriveIndexWithData";
+import DriveSkeleton from "~/components/DriveSkeleton";
+
+import { rootFolderQuery } from "~/queries/drive";
 
 export const Route = createFileRoute("/drive/")({
   component: DriveIndexComponent,
   loader: async ({ context }) => {
     const userId = context.userId;
-
-    if (!userId) {
-      throw new Error("User not authenticated");
-    }
-
-    const { folders, files, rootFolderId } = await getDataInRootFolder({
-      data: userId,
-    });
-
-    return { folders, files, rootFolderId };
+    await context.queryClient.ensureQueryData(rootFolderQuery(userId));
+    return userId;
   },
 });
 
 function DriveIndexComponent() {
-  const { files, folders, rootFolderId } = Route.useLoaderData();
+  const userId = Route.useLoaderData();
 
   return (
-    <div>
-      <DriveContents
-        files={files}
-        folders={folders}
-        parents={null}
-        currentFolderId={rootFolderId}
-      />
-    </div>
+    <Suspense fallback={<DriveSkeleton />}>
+      <DriveIndexWithData userId={userId} />
+    </Suspense>
   );
 }
