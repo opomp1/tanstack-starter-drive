@@ -3,6 +3,7 @@ import { Loader2 } from "lucide-react";
 import { onboardUser } from "~/server/actions/user";
 import { authStateFn } from "~/utils/auth";
 import { getRootFolder } from "~/server/actions/data";
+import { Navbar } from "~/components/Navbar";
 
 export const Route = createFileRoute("/drive")({
   component: DriveComponent,
@@ -39,6 +40,7 @@ function DriveComponent() {
 
   return (
     <div>
+      <Navbar />
       <Outlet />
     </div>
   );

@@ -15,40 +15,23 @@ function Home() {
   const userId = Route.useLoaderData();
 
   return (
-    <div className="h-full flex flex-col justify-center items-center pt-16 p-4 text-gray-300">
-      <div className="mb-8 flex items-center justify-center space-x-2">
-        <CloudSun className="h-12 w-12 text-amber-700 animate-bounce" />
-        <h1 className="text-4xl font-bold ">TanStack Drive</h1>
-        <CloudSun className="h-12 w-12 text-amber-700 animate-bounce" />
+    <div
+      className="h-svh w-full bg-no-repeat bg-cover bg-center flex items-center justify-start"
+      style={{ backgroundImage: "url('/tanstack-background.png')" }}
+    >
+      <div className="sm:ml-10 md:ml-20 p-8 sm:p-4  max-w-lg flex flex-col space-y-5">
+        <h1 className="text-5xl font-bold mb-2">TanStack Drive</h1>
+        <p className="text-lg mb-8">
+          Secure cloud storage for your files. Access your files anywhere,
+          anytime.
+        </p>
+        <Link
+          to={userId ? "/drive" : "/sign-in"}
+          className="px-6 py-3 bg-blue-600 hover:bg-blue-800 text-lg font-semibold rounded-xl transition-all w-36 text-center"
+        >
+          Get Started
+        </Link>
       </div>
-
-      <div className="w-full max-w-md space-y-4 rounded-lg border bg-neutral-900/60 p-10  shadow-xl backdrop-blur-sm">
-        <div className="space-y-2">
-          <div className="text-center text-2xl font-bold">Welcome</div>
-          <div className="text-center text-neutral-400">
-            Your secure cloud storage solution
-          </div>
-        </div>
-        <div className="flex flex-col items-center space-y-6">
-          {userId ? (
-            <Link to="/drive" className="w-full btn btn-primary">
-              Get Started
-            </Link>
-          ) : (
-            <Link to="/sign-in" className="w-full btn btn-primary">
-              Get Started
-            </Link>
-          )}
-        </div>
-        <div className="flex justify-center">
-          <p className="text-sm text-neutral-400">
-            Access your files securely from anywhere
-          </p>
-        </div>
-      </div>
-      <footer className="mt-16 text-sm text-neutral-500">
-        © {new Date().getFullYear()} TanStack Drive Drive. All rights reserved.
-      </footer>
     </div>
   );
 }

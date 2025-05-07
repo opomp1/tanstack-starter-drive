@@ -1,6 +1,5 @@
-import { SignedOut, SignInButton } from "@clerk/tanstack-react-start";
+import { SignInButton } from "@clerk/tanstack-react-start";
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { CloudIcon, CloudSun, File, Folder } from "lucide-react";
 
 export const Route = createFileRoute("/sign-in")({
   beforeLoad: async ({ context }) => {
@@ -10,34 +9,29 @@ export const Route = createFileRoute("/sign-in")({
     }
   },
   component: () => (
-    <div className="h-full flex flex-col justify-center items-center pt-16 p-4">
-      {/* <div className="mb-8 flex items-center justify-center space-x-2">
-        <CloudSun className="h-12 w-12 text-white" />
-        <h1 className="text-2xl font-bold text-white">
-          Sign in to access your files
-        </h1>
-      </div> */}
-
-      <div className="w-full max-w-md space-y-4 rounded-lg border bg-neutral-900/60 p-10 text-white shadow-xl backdrop-blur-sm">
-        <div className="space-y-2">
-          <div className="text-center text-2xl font-bold">Sign in</div>
-          <div className="text-center text-neutral-400">
-            Please sign in to continue
-          </div>
+    <div
+      className="h-screen w-full bg-no-repeat bg-cover bg-center flex items-center justify-center"
+      style={{ backgroundImage: "url('/tanstack-background.png')" }}
+    >
+      <div className="w-full max-w-md rounded-2xl border bg-gray-900/70 p-10 text-white shadow-xl backdrop-blur-md">
+        <div className="space-y-2 text-center">
+          <h2 className="text-3xl font-bold">Sign in</h2>
+          <p className="text-neutral-400">to continue to TanStack Drive</p>
         </div>
 
         <SignInButton mode="modal">
-          <button className="w-full btn btn-primary">Sign in</button>
+          <button className="w-full mt-6 btn btn-primary bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl transition-all">
+            Sign in
+          </button>
         </SignInButton>
 
-        <div className="flex justify-center">
-          <p className="text-sm text-neutral-400">
-            Fast, private, and accessible cloud storage built for you.
-          </p>
-        </div>
+        <p className="mt-6 text-center text-sm text-neutral-400">
+          Fast and secure cloud storage
+        </p>
       </div>
-      <footer className="mt-16 text-sm text-neutral-500">
-        © {new Date().getFullYear()} TanStack Drive Drive. All rights reserved.
+
+      <footer className="absolute bottom-6 text-sm text-neutral-500">
+        © {new Date().getFullYear()} TanStack Drive. All rights reserved.
       </footer>
     </div>
   ),

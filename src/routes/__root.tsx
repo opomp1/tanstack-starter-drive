@@ -18,7 +18,6 @@ import appCss from "~/styles/app.css?url";
 import type { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import { Navbar } from "~/components/Navbar";
 import { Toaster } from "react-hot-toast";
 
 const fetchClerkAuth = createServerFn({ method: "GET" }).handler(async () => {
@@ -99,7 +98,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <Navbar />
         <hr />
         {children}
         <Toaster />
