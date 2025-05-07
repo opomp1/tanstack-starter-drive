@@ -64,7 +64,7 @@ export function FileRow(props: {
         </div>
         <div className="col-span-2 text-gray-400">file</div>
         <div className="col-span-3 text-gray-400">{file.size}</div>
-        <div className="col-span-1 text-gray-400">
+        <div className="col-span-1 text-gray-400 flex justify-center">
           <button onClick={() => handleDeleteFile()}>
             <Trash2Icon
               size={20}

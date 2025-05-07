@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { files_table, folders_table } from "~/server/db/schema";
 import { UploadButton } from "~/utils/uploadthing";
-import { createFolder } from "~/server/actions/create-folder";
+import { createFolder } from "~/server/actions/folder";
 import { refreshDriveContent } from "~/queries/drive";
 
 import toast from "react-hot-toast";
@@ -30,7 +30,7 @@ export default function DriveContents(props: {
       input: "text",
       background: "#181818",
       color: "#fff",
-      confirmButtonColor: "#00D3BB",
+      confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Create folder",
       showCancelButton: true,
