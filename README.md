@@ -34,7 +34,7 @@ A modern, minimal, and full-featured Google Drive clone built with **TanStack St
 
 ## 🌐 Live Demo
 
-🔗 **[Click here to try TanStack Drive](https://tanstack-drive.netlify.app/)**
+👉 **[Try TanStack Drive](https://tanstack-drive.netlify.app/)**
 
 ![Background](./public/tanstack-background.png)
 
