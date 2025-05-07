@@ -1,6 +1,6 @@
 import { Folder as FolderIcon, FileIcon, Trash2Icon } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { files_table, folders_table } from "~/db/schema";
+import { files_table, folders_table } from "~/server/db/schema";
 import { deleteFile } from "~/server/actions/delete-file";
 import { useQueryClient } from "@tanstack/react-query";
 import { refreshDriveContent } from "~/queries/drive";

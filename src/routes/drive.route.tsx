@@ -1,5 +1,4 @@
-import { SignIn, useAuth } from "@clerk/tanstack-react-start";
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 import { onboardUser } from "~/server/actions/user";
 import { authStateFn } from "~/utils/auth";
@@ -31,7 +30,7 @@ function DriveComponent() {
   const { userId, rootFolder } = Route.useLoaderData();
   if (!userId) {
     return (
-      <div className="h-svh w-full flex justify-center items-center">
+      <div className="h-svh w-full flex justify-center items-center gap-2">
         <Loader2 className="size-10 animate-spin" />
         <p>Setting up your session...</p>
       </div>

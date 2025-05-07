@@ -1,13 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
 import { and, eq, isNull } from "drizzle-orm";
 
-import { queryOptions } from "@tanstack/react-query";
-
-import { db } from "~/db";
+import { db } from "~/server/db";
 import {
   files_table as filesSchema,
   folders_table as foldersSchema,
-} from "~/db/schema";
+} from "~/server/db/schema";
 
 export const getDataInRootFolder = createServerFn()
   .validator((userId: string) => userId)

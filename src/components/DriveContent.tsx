@@ -1,6 +1,6 @@
 import { FileRow, FolderRow } from "./file-row";
 import { Link } from "@tanstack/react-router";
-import { files_table, folders_table } from "~/db/schema";
+import { files_table, folders_table } from "~/server/db/schema";
 import { UploadButton } from "~/utils/uploadthing";
 
 import { useQueryClient } from "@tanstack/react-query";
@@ -8,6 +8,7 @@ import { FolderPlus } from "lucide-react";
 import Swal from "sweetalert2";
 import { createFolder } from "~/server/actions/create-folder";
 import { refreshDriveContent } from "~/queries/drive";
+import toast from "react-hot-toast";
 
 export default function DriveContents(props: {
   files: (typeof files_table.$inferSelect)[];
@@ -50,6 +51,9 @@ export default function DriveContents(props: {
         currentFolderId: props.currentFolderId,
         queryClient,
       });
+      toast.success("Folder created successfully");
+    } else {
+      toast.error("Something went wrong");
     }
   };
 
@@ -120,6 +124,7 @@ export default function DriveContents(props: {
                 currentFolderId: props.currentFolderId,
                 queryClient,
               });
+              toast.success("File uploaded successfully!");
             }}
             input={{ folderId: props.currentFolderId }}
           />

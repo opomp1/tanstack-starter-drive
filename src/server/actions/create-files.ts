@@ -1,9 +1,9 @@
 import { eq } from "drizzle-orm";
-import { db } from "~/db";
+import { db } from "~/server/db";
 import {
   files_table as filesSchema,
   folders_table as foldersSchema,
-} from "~/db/schema";
+} from "~/server/db/schema";
 
 export async function createFile({
   file,

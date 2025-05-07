@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
-import { db } from "~/db";
-import { folders_table as foldersSchema } from "~/db/schema";
+import { db } from "~/server/db";
+import { folders_table as foldersSchema } from "~/server/db/schema";
 
 export const onboardUser = createServerFn()
   .validator((userId: string) => userId)

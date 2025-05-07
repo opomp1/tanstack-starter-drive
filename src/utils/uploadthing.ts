@@ -3,7 +3,7 @@ import {
   generateUploadButton,
   generateUploadDropzone,
 } from "@uploadthing/react";
-import { UploadRouter } from "~/db/uploadthing";
+import { UploadRouter } from "~/server/db/uploadthing";
 
 export const UploadButton = generateUploadButton<UploadRouter>();
 export const UploadDropzone = generateUploadDropzone<UploadRouter>();

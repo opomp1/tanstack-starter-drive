@@ -1,6 +1,6 @@
 import { createAPIFileRoute } from "@tanstack/react-start/api";
 import { createRouteHandler } from "uploadthing/server";
-import { uploadRouter } from "~/db/uploadthing";
+import { uploadRouter } from "~/server/db/uploadthing";
 
 const handlers = createRouteHandler({ router: uploadRouter });
 

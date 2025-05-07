@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
-import { db } from "~/db";
+import { db } from "~/server/db";
 import { eq, and } from "drizzle-orm";
-import { files_table } from "~/db/schema";
+import { files_table } from "~/server/db/schema";
 import { UTApi } from "uploadthing/server";
 
 export const deleteFile = createServerFn()

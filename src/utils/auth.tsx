@@ -7,7 +7,6 @@ export const authStateFn = createServerFn({ method: "GET" }).handler(
   async () => {
     const req = getWebRequest();
     if (!req) {
-      // fallback just in case
       throw new Error("Request context not available");
     }
 

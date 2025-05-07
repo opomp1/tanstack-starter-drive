@@ -1,19 +1,11 @@
 /// <reference types="vite/client" />
 import {
   HeadContent,
-  Link,
   Outlet,
   Scripts,
-  createRootRoute,
   createRootRouteWithContext,
 } from "@tanstack/react-router";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/tanstack-react-start";
+import { ClerkProvider } from "@clerk/tanstack-react-start";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { createServerFn } from "@tanstack/react-start";
 import * as React from "react";
@@ -27,6 +19,7 @@ import type { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { Navbar } from "~/components/Navbar";
+import { Toaster } from "react-hot-toast";
 
 const fetchClerkAuth = createServerFn({ method: "GET" }).handler(async () => {
   const { userId } = await getAuth(getWebRequest()!);
@@ -109,6 +102,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Navbar />
         <hr />
         {children}
+        <Toaster />
         <TanStackRouterDevtools position="bottom-right" />
         <ReactQueryDevtools buttonPosition="bottom-left" />
         <Scripts />

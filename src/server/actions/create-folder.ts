@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
-import { db } from "~/db";
-import { folders_table } from "~/db/schema";
+import { db } from "~/server/db";
+import { folders_table } from "~/server/db/schema";
 
 export const createFolder = createServerFn()
   .validator(
