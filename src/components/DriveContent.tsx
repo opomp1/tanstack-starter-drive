@@ -5,6 +5,9 @@ import { UploadButton } from "~/utils/uploadthing";
 
 import { useQueryClient } from "@tanstack/react-query";
 import { FolderPlus } from "lucide-react";
+import Swal from "sweetalert2";
+import { createFolder } from "~/server/actions/create-folder";
+import { refreshDriveContent } from "~/queries/drive";
 
 export default function DriveContents(props: {
   files: (typeof files_table.$inferSelect)[];
@@ -16,6 +19,40 @@ export default function DriveContents(props: {
   userId: string;
 }) {
   const queryClient = useQueryClient();
+
+  const handleCreateFolder = async () => {
+    const { value: name } = await Swal.fire({
+      title: "Enter folder name",
+      input: "text",
+      background: "#181818",
+      color: "#fff",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Create folder",
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return "You need folder name";
+        }
+      },
+    });
+    if (name) {
+      await createFolder({
+        data: {
+          folderId: props.currentFolderId,
+          folderName: name,
+          userId: props.userId,
+        },
+      });
+
+      await refreshDriveContent({
+        isRoot: props.isRoot,
+        currentFolderId: props.currentFolderId,
+        queryClient,
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen p-8 text-gray-100">
       <div className="mx-auto max-w-6xl">
@@ -39,10 +76,13 @@ export default function DriveContents(props: {
               </ul>
             </div>
           </div>
-          {/* <button className="btn btn-accent btn-soft rounded-lg ">
+          <button
+            className="btn btn-accent btn-soft rounded-lg "
+            onClick={handleCreateFolder}
+          >
             <FolderPlus />
-            Create Folder
-          </button> */}
+            New Folder
+          </button>
         </div>
         <div className="rounded-lg  bg-base-300 shadow-xl">
           <div
@@ -75,13 +115,11 @@ export default function DriveContents(props: {
             className="mt-8"
             endpoint="driveUploader"
             onClientUploadComplete={() => {
-              if (props.isRoot) {
-                queryClient.invalidateQueries({ queryKey: ["root-folder"] });
-              } else {
-                queryClient.invalidateQueries({
-                  queryKey: ["folder", props.currentFolderId],
-                });
-              }
+              refreshDriveContent({
+                isRoot: props.isRoot,
+                currentFolderId: props.currentFolderId,
+                queryClient,
+              });
             }}
             input={{ folderId: props.currentFolderId }}
           />

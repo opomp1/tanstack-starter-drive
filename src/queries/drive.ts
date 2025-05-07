@@ -23,11 +23,18 @@ export const folderQuery = (folderId: number) =>
     },
   });
 
-export const handleSuccess = async (isRoot: boolean, folderId: number) => {
-  const queryClient = useQueryClient();
+export const refreshDriveContent = async ({
+  isRoot,
+  currentFolderId,
+  queryClient,
+}: {
+  isRoot: boolean;
+  currentFolderId: number;
+  queryClient: ReturnType<typeof useQueryClient>;
+}) => {
   if (isRoot) {
     queryClient.invalidateQueries({ queryKey: ["root-folder"] });
   } else {
-    queryClient.invalidateQueries({ queryKey: ["folder", folderId] });
+    queryClient.invalidateQueries({ queryKey: ["folder", currentFolderId] });
   }
 };

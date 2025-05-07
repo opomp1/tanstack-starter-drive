@@ -3,6 +3,8 @@ import { Link } from "@tanstack/react-router";
 import { files_table, folders_table } from "~/db/schema";
 import { deleteFile } from "~/server/actions/delete-file";
 import { useQueryClient } from "@tanstack/react-query";
+import { refreshDriveContent } from "~/queries/drive";
+import Swal from "sweetalert2";
 
 export function FileRow(props: {
   file: typeof files_table.$inferSelect;
@@ -15,18 +17,32 @@ export function FileRow(props: {
   const queryClient = useQueryClient();
 
   const handleDelete = async () => {
-    const confirmed = confirm("Are you sure you want to delete this file?");
-    if (!confirmed) return;
+    const confirmed = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      background: "#181818",
+      color: "#fff",
+      iconColor: "orange",
+    });
+
+    if (!confirmed.isConfirmed) return;
 
     await deleteFile({ data: { fileId: file.id, userId } });
 
-    if (isRoot) {
-      queryClient.invalidateQueries({ queryKey: ["root-folder"] });
-    } else {
-      queryClient.invalidateQueries({
-        queryKey: ["folder", currentFolderId],
-      });
-    }
+    Swal.fire({
+      title: "Deleted!",
+      text: "Your file has been deleted.",
+      icon: "success",
+      background: "#181818",
+      color: "#fff",
+    });
+
+    await refreshDriveContent({ isRoot, currentFolderId, queryClient });
   };
 
   return (
