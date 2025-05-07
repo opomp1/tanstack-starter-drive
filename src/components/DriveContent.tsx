@@ -4,6 +4,7 @@ import { files_table, folders_table } from "~/db/schema";
 import { UploadButton } from "~/utils/uploadthing";
 
 import { useQueryClient } from "@tanstack/react-query";
+import { FolderPlus } from "lucide-react";
 
 export default function DriveContents(props: {
   files: (typeof files_table.$inferSelect)[];
@@ -38,6 +39,10 @@ export default function DriveContents(props: {
               </ul>
             </div>
           </div>
+          {/* <button className="btn btn-accent btn-soft rounded-lg ">
+            <FolderPlus />
+            Create Folder
+          </button> */}
         </div>
         <div className="rounded-lg  bg-base-300 shadow-xl">
           <div
@@ -65,20 +70,22 @@ export default function DriveContents(props: {
             ))}
           </ul>
         </div>
-        <UploadButton
-          className="mt-8"
-          endpoint="driveUploader"
-          onClientUploadComplete={() => {
-            if (props.isRoot) {
-              queryClient.invalidateQueries({ queryKey: ["root-folder"] });
-            } else {
-              queryClient.invalidateQueries({
-                queryKey: ["folder", props.currentFolderId],
-              });
-            }
-          }}
-          input={{ folderId: props.currentFolderId }}
-        />
+        <div className="flex justify-center items-center">
+          <UploadButton
+            className="mt-8"
+            endpoint="driveUploader"
+            onClientUploadComplete={() => {
+              if (props.isRoot) {
+                queryClient.invalidateQueries({ queryKey: ["root-folder"] });
+              } else {
+                queryClient.invalidateQueries({
+                  queryKey: ["folder", props.currentFolderId],
+                });
+              }
+            }}
+            input={{ folderId: props.currentFolderId }}
+          />
+        </div>
       </div>
     </div>
   );
