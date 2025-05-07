@@ -20,15 +20,17 @@ A modern, minimal, and full-featured Google Drive clone built with **TanStack St
 
 ## 🛠 Tech Stack
 
-| Name             | Description                                      |
-|------------------|--------------------------------------------------|
-| **TanStack Start** | Full-stack React framework (router, query, forms) |
-| **Clerk**         | Authentication and user management              |
-| **UploadThing**   | File upload API and storage                     |
-| **Drizzle ORM**   | Type-safe database ORM (SingleStore DB)         |
-| **Tailwind CSS**  | Utility-first styling                           |
-| **SweetAlert2**   | Beautiful alert + confirm dialogs               |
-| **Framer Motion** | Smooth animations                               |
+| Name                       | Description                                                                 |
+|----------------------------|-----------------------------------------------------------------------------|
+| **TanStack Start**         | Full-stack React framework with routing, query, forms, and SSR support      |
+| **Clerk**                  | Authentication and user management (OAuth, onboarding, JWT, etc.)           |
+| **UploadThing**            | File upload and handling with secure endpoints                              |
+| **Drizzle ORM**            | Type-safe SQL ORM with schema inference, built for modern TypeScript        |
+| **SingleStore (via mysql2)** | High-performance SQL database for scalable storage                         |
+| **Tailwind CSS + DaisyUI** | Utility-first styling with ready-made UI components                         |
+| **React Query**            | Powerful data fetching, caching, and mutations for client/server syncing    |
+| **React Router (TanStack)**| File-based routing with layouts and nested routes                           |
+
 
 ---
 
