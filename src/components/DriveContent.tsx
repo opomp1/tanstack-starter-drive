@@ -1,14 +1,17 @@
-import { FileRow, FolderRow } from "./file-row";
 import { Link } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+
 import { files_table, folders_table } from "~/server/db/schema";
 import { UploadButton } from "~/utils/uploadthing";
-
-import { useQueryClient } from "@tanstack/react-query";
-import { Folder, FolderPlus } from "lucide-react";
-import Swal from "sweetalert2";
 import { createFolder } from "~/server/actions/create-folder";
 import { refreshDriveContent } from "~/queries/drive";
+
 import toast from "react-hot-toast";
+import { Folder, FolderPlus } from "lucide-react";
+import Swal from "sweetalert2";
+
+import { FolderRow } from "./FolderRow";
+import { FileRow } from "./FileRow";
 
 export default function DriveContents(props: {
   files: (typeof files_table.$inferSelect)[];
@@ -22,12 +25,12 @@ export default function DriveContents(props: {
   const queryClient = useQueryClient();
 
   const handleCreateFolder = async () => {
-    const { value: name } = await Swal.fire({
+    const { value: name, isConfirmed } = await Swal.fire({
       title: "Enter folder name",
       input: "text",
       background: "#181818",
       color: "#fff",
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#00D3BB",
       cancelButtonColor: "#d33",
       confirmButtonText: "Create folder",
       showCancelButton: true,
@@ -37,23 +40,31 @@ export default function DriveContents(props: {
         }
       },
     });
-    if (name) {
-      await createFolder({
-        data: {
-          folderId: props.currentFolderId,
-          folderName: name,
-          userId: props.userId,
-        },
-      });
+    if (isConfirmed && name) {
+      try {
+        await createFolder({
+          data: {
+            folderId: props.currentFolderId,
+            folderName: name,
+            userId: props.userId,
+          },
+        });
 
-      await refreshDriveContent({
-        isRoot: props.isRoot,
-        currentFolderId: props.currentFolderId,
-        queryClient,
-      });
-      toast.success("Folder created successfully");
-    } else {
-      toast.error("Something went wrong");
+        await refreshDriveContent({
+          isRoot: props.isRoot,
+          currentFolderId: props.currentFolderId,
+          queryClient,
+        });
+        toast.success("Folder created successfully");
+      } catch (error: any) {
+        Swal.fire({
+          icon: "error",
+          title: "Can't create folder",
+          text: `${error?.message || "Something went wrong"}`,
+          background: "#181818",
+          color: "#fff",
+        });
+      }
     }
   };
 
@@ -62,8 +73,8 @@ export default function DriveContents(props: {
       <div className="mx-auto max-w-6xl">
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center">
-            <div className="breadcrumbs text-sm">
-              <ul>
+            <div className="breadcrumbs text-md">
+              <ul className="flex-wrap ">
                 <li>
                   <Link to="/drive">My Drive</Link>
                 </li>
@@ -73,7 +84,7 @@ export default function DriveContents(props: {
                       to="/drive/$folderId"
                       params={{ folderId: String(parent.id) }}
                     >
-                      <Folder className="h-4 w-4 stroke-current" />
+                      <Folder className="h-5 w-5 stroke-current" />
                       {parent.name}
                     </Link>
                   </li>
@@ -102,7 +113,13 @@ export default function DriveContents(props: {
           </div>
           <ul>
             {props.folders.map((folder) => (
-              <FolderRow key={folder.id} folder={folder} />
+              <FolderRow
+                key={folder.id}
+                folder={folder}
+                isRoot={props.isRoot}
+                userId={props.userId}
+                currentFolderId={props.currentFolderId}
+              />
             ))}
             {props.files.map((file) => (
               <FileRow

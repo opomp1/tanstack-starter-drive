@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
-import { and, eq, isNull } from "drizzle-orm";
 
 import { db } from "~/server/db";
+import { and, eq, isNull } from "drizzle-orm";
 import {
   files_table as filesSchema,
   folders_table as foldersSchema,
@@ -11,6 +11,9 @@ export const getDataInRootFolder = createServerFn()
   .validator((userId: string) => userId)
   .handler(async (ctx) => {
     const userId = ctx.data;
+
+    if (!userId) throw new Error("Cannot fetch root folder without user ID");
+
     const rootFolder = await db
       .select()
       .from(foldersSchema)

@@ -1,9 +1,10 @@
-import { Folder as FolderIcon, FileIcon, Trash2Icon } from "lucide-react";
-import { Link } from "@tanstack/react-router";
-import { files_table, folders_table } from "~/server/db/schema";
-import { deleteFile } from "~/server/actions/delete-file";
 import { useQueryClient } from "@tanstack/react-query";
+
+import { files_table } from "~/server/db/schema";
+import { deleteFile } from "~/server/actions/delete-file";
 import { refreshDriveContent } from "~/queries/drive";
+
+import { FileIcon, Trash2Icon } from "lucide-react";
 import Swal from "sweetalert2";
 
 export function FileRow(props: {
@@ -16,7 +17,7 @@ export function FileRow(props: {
 
   const queryClient = useQueryClient();
 
-  const handleDelete = async () => {
+  const handleDeleteFile = async () => {
     const confirmed = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -64,7 +65,7 @@ export function FileRow(props: {
         <div className="col-span-2 text-gray-400">file</div>
         <div className="col-span-3 text-gray-400">{file.size}</div>
         <div className="col-span-1 text-gray-400">
-          <button onClick={() => handleDelete()}>
+          <button onClick={() => handleDeleteFile()}>
             <Trash2Icon
               size={20}
               aria-label="Delete file"
@@ -72,33 +73,6 @@ export function FileRow(props: {
             />
           </button>
         </div>
-      </div>
-    </li>
-  );
-}
-
-export function FolderRow(props: {
-  folder: typeof folders_table.$inferSelect;
-}) {
-  const { folder } = props;
-  return (
-    <li
-      key={folder.id}
-      className="border-b border-gray-700 px-6 py-4 last:border-b-0"
-    >
-      <div className="grid grid-cols-12 items-center gap-4">
-        <div className="col-span-6 flex items-center">
-          <Link
-            to="/drive/$folderId"
-            params={{ folderId: String(folder.id) }}
-            className="flex items-center text-gray-100 hover:text-blue-400 truncate"
-          >
-            <FolderIcon className="mr-3 shrink-0" size={20} />
-            {folder.name}
-          </Link>
-        </div>
-        <div className="col-span-3 text-gray-400">Folder</div>
-        <div className="col-span-3 text-gray-400"></div>
       </div>
     </li>
   );

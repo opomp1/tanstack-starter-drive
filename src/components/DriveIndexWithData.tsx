@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import DriveContents from "~/components/DriveContent";
 import { rootFolderQuery } from "~/queries/drive";
+
+import DriveContents from "~/components/DriveContent";
 
 export default function DriveIndexWithData({ userId }: { userId: string }) {
   const { data } = useSuspenseQuery(rootFolderQuery(userId));

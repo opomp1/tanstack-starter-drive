@@ -4,7 +4,6 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/tanstack-react-start";
-import { Link } from "@tanstack/react-router";
 
 export function Navbar() {
   return (

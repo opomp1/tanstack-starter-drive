@@ -1,9 +1,11 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { Loader2 } from "lucide-react";
+
 import { onboardUser } from "~/server/actions/user";
 import { authStateFn } from "~/utils/auth";
 import { getRootFolder } from "~/server/actions/data";
+
 import { Navbar } from "~/components/Navbar";
+import { Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/drive")({
   component: DriveComponent,

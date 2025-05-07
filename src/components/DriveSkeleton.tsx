@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function DriveSkeleton() {
   return (
     <div className="min-h-screen p-8 text-gray-100">
