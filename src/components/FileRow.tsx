@@ -62,16 +62,18 @@ export function FileRow(props: {
             <p>{file.name}</p>
           </a>
         </div>
-        <div className="col-span-2 text-gray-400">file</div>
-        <div className="col-span-3 text-gray-400">{file.size}</div>
-        <div className="col-span-1 text-gray-400 flex justify-center">
-          <button onClick={() => handleDeleteFile()}>
-            <Trash2Icon
-              size={20}
-              aria-label="Delete file"
-              className="hover:text-error"
-            />
-          </button>
+        <div className="col-span-6 flex justify-evenly">
+          <div className=" text-gray-400">file</div>
+          <div className=" text-gray-400 text-end">{file.size}</div>
+          <div className=" text-gray-400 flex justify-center">
+            <button onClick={() => handleDeleteFile()}>
+              <Trash2Icon
+                size={20}
+                aria-label="Delete file"
+                className="hover:text-error"
+              />
+            </button>
+          </div>
         </div>
       </div>
     </li>

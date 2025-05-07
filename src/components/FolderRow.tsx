@@ -110,28 +110,30 @@ export function FolderRow(props: {
         </div>
 
         {/* Type */}
-        <div className="col-span-2 text-gray-400">Folder</div>
+        <div className="col-span-6 flex justify-evenly">
+          <div className=" text-gray-400">Folder</div>
 
-        {/* Size (or placeholder) */}
-        <div className="col-span-3 text-gray-400">-</div>
+          {/* Size (or placeholder) */}
+          <div className=" text-gray-400 text-end"></div>
 
-        {/* Options dropdown */}
-        <div className="col-span-1 text-gray-400 flex justify-center">
-          <div className="dropdown dropdown-end text-center">
-            <button tabIndex={0} className="btn btn-ghost btn-xs">
-              <Ellipsis size={18} />
-            </button>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-28 z-50"
-            >
-              <li>
-                <button onClick={() => handleRenameFolder()}>Edit</button>
-              </li>
-              <li>
-                <button onClick={() => handleDeleteFolder()}>Delete</button>
-              </li>
-            </ul>
+          {/* Options dropdown */}
+          <div className=" text-gray-400 flex justify-center">
+            <div className="dropdown dropdown-end text-center">
+              <button tabIndex={0} className="btn btn-ghost btn-xs">
+                <Ellipsis size={18} />
+              </button>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-28 z-50"
+              >
+                <li>
+                  <button onClick={() => handleRenameFolder()}>Edit</button>
+                </li>
+                <li>
+                  <button onClick={() => handleDeleteFolder()}>Delete</button>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
