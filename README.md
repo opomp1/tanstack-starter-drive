@@ -33,7 +33,7 @@ A modern, minimal, and full-featured Google Drive clone built with **TanStack St
 ---
 
 ## 📸 Screenshots
-![View](./tanstack-background.png)
+![Background](./public/tanstack-background.png)
 ---
 
 ## 🌐 Live Demo
