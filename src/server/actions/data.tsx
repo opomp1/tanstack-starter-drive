@@ -102,6 +102,8 @@ export const getRootFolder = createServerFn()
   .validator((userId: string) => userId)
   .handler(async (ctx) => {
     const userId = ctx.data;
+    if (!userId) throw new Error("Cannot fetch data without user ID");
+
     const folder = await db
       .select()
       .from(foldersSchema)
