@@ -38,4 +38,3 @@ A modern, minimal, and full-featured Google Drive clone built with **TanStack St
 
 ![Background](./public/tanstack-background.png)
 
----
