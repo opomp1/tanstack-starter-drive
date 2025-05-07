@@ -54,11 +54,11 @@ export function FileRow(props: {
         <div className="col-span-6 flex items-center">
           <a
             href={file.url}
-            className="flex items-center text-gray-100 hover:text-blue-400"
+            className="flex items-center text-gray-100 hover:text-blue-400 truncate"
             target="_blank"
           >
-            <FileIcon className="mr-3" size={20} />
-            {file.name}
+            <FileIcon className="mr-3 shrink-0" size={20} />
+            <p>{file.name}</p>
           </a>
         </div>
         <div className="col-span-2 text-gray-400">file</div>
@@ -91,9 +91,9 @@ export function FolderRow(props: {
           <Link
             to="/drive/$folderId"
             params={{ folderId: String(folder.id) }}
-            className="flex items-center text-gray-100 hover:text-blue-400"
+            className="flex items-center text-gray-100 hover:text-blue-400 truncate"
           >
-            <FolderIcon className="mr-3" size={20} />
+            <FolderIcon className="mr-3 shrink-0" size={20} />
             {folder.name}
           </Link>
         </div>

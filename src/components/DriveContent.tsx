@@ -4,7 +4,7 @@ import { files_table, folders_table } from "~/server/db/schema";
 import { UploadButton } from "~/utils/uploadthing";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { FolderPlus } from "lucide-react";
+import { Folder, FolderPlus } from "lucide-react";
 import Swal from "sweetalert2";
 import { createFolder } from "~/server/actions/create-folder";
 import { refreshDriveContent } from "~/queries/drive";
@@ -73,6 +73,7 @@ export default function DriveContents(props: {
                       to="/drive/$folderId"
                       params={{ folderId: String(parent.id) }}
                     >
+                      <Folder className="h-4 w-4 stroke-current" />
                       {parent.name}
                     </Link>
                   </li>
