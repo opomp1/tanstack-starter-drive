@@ -5,8 +5,7 @@ import { folders_table } from "~/server/db/schema";
 import { deleteFolder } from "~/server/actions/folder";
 import { refreshDriveContent } from "~/queries/drive";
 
-import folderIcon from "/folder-icon.png";
-import { Ellipsis, Folder as FolderIcon, Trash2Icon } from "lucide-react";
+import { Ellipsis, Folder as FolderIcon } from "lucide-react";
 import Swal from "sweetalert2";
 import { renameFolder } from "~/server/actions/folder";
 import toast from "react-hot-toast";
@@ -96,7 +95,7 @@ export function FolderRow(props: {
         icon: "error",
         title: "Can't delete folder",
         text: "Please remove all subfolders before deleting this folder.",
-        background: "#181818",
+        background: "#0C1324",
         color: "#fff",
       });
     }

@@ -7,7 +7,7 @@ import { createFolder } from "~/server/actions/folder";
 import { refreshDriveContent } from "~/queries/drive";
 
 import toast from "react-hot-toast";
-import { Folder, FolderIcon, FolderPlus } from "lucide-react";
+import { FolderIcon, FolderPlus } from "lucide-react";
 import Swal from "sweetalert2";
 
 import { FolderRow } from "./FolderRow";

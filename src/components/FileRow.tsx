@@ -4,7 +4,6 @@ import { files_table } from "~/server/db/schema";
 import { deleteFile } from "~/server/actions/delete-file";
 import { refreshDriveContent } from "~/queries/drive";
 
-import fileIcon from "/file-icon.png";
 import { FileIcon, Trash2Icon } from "lucide-react";
 import Swal from "sweetalert2";
 
