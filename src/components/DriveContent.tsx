@@ -7,7 +7,7 @@ import { createFolder } from "~/server/actions/folder";
 import { refreshDriveContent } from "~/queries/drive";
 
 import toast from "react-hot-toast";
-import { Folder, FolderPlus } from "lucide-react";
+import { Folder, FolderIcon, FolderPlus } from "lucide-react";
 import Swal from "sweetalert2";
 
 import { FolderRow } from "./FolderRow";
@@ -28,7 +28,7 @@ export default function DriveContents(props: {
     const { value: name, isConfirmed } = await Swal.fire({
       title: "Enter folder name",
       input: "text",
-      background: "#181818",
+      background: "#0C1324",
       color: "#fff",
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
@@ -76,15 +76,21 @@ export default function DriveContents(props: {
             <div className="breadcrumbs text-md">
               <ul className="flex-wrap ">
                 <li>
-                  <Link to="/drive">My Drive</Link>
+                  <Link
+                    to="/drive"
+                    className="hover:text-blue-600 font-semibold"
+                  >
+                    My Drive
+                  </Link>
                 </li>
                 {props.parents?.map((parent) => (
                   <li key={parent.id}>
                     <Link
                       to="/drive/$folderId"
                       params={{ folderId: String(parent.id) }}
+                      className="flex items-center font-medium text-white hover:text-blue-600 truncate transition-colors"
                     >
-                      <Folder className="h-5 w-5 stroke-current" />
+                      <FolderIcon className="mr-1 shrink-0" size={20} />
                       {parent.name}
                     </Link>
                   </li>
@@ -93,23 +99,30 @@ export default function DriveContents(props: {
             </div>
           </div>
           <button
-            className="btn btn-accent btn-soft rounded-lg "
+            className="btn btn-success btn-ghost text-success hover:text-black rounded-lg  shadow-sm"
             onClick={handleCreateFolder}
           >
-            <FolderPlus />
+            <FolderPlus className="size-5" />
             New Folder
           </button>
         </div>
-        <div className="rounded-lg  bg-base-300 shadow-xl">
+        <div className="rounded-xl border border-blue-500/10 bg-transparent/20 shadow-[0_0_30px_rgba(0,119,191,0.03)]">
           <div
             className={`border-gray-700 px-6 py-4 ${props.folders.length === 0 && props.files.length === 0 ? "" : "border-b"}`}
           >
             <div className="grid grid-cols-12 gap-4 text-sm font-medium text-gray-400">
-              <div className="col-span-6">Name</div>
-              <div className="col-span-6 flex justify-evenly">
-                <div className="text-left">Type</div>
-                <div className="text-end">Size</div>
-                <div className=""></div>
+              {/* Table Left */}
+              <div className="col-span-10 sm:col-span-6">Name</div>
+              {/* Table right */}
+              <div className="col-span-2 sm:col-span-6 grid grid-cols-12">
+                <div className="hidden lg:flex col-span-3">Type</div>
+                <div className="hidden md:flex col-span-4 lg:col-span-3">
+                  Size
+                </div>
+                <div className=" hidden sm:flex col-span-6 md:col-span-4 lg:col-span-3">
+                  Created
+                </div>
+                <div className="flex justify-center col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3"></div>
               </div>
             </div>
           </div>

@@ -33,7 +33,13 @@ function DriveComponent() {
   const { userId, rootFolder } = Route.useLoaderData();
   if (!userId) {
     return (
-      <div className="h-svh w-full flex justify-center items-center gap-2">
+      <div
+        className="min-h-screen"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right bottom, #09213f, #0b1d37, #0c1a30, #0d1629, #0c1222)",
+        }}
+      >
         <Loader2 className="size-10 animate-spin" />
         <p>Setting up your session...</p>
       </div>
@@ -41,7 +47,13 @@ function DriveComponent() {
   }
 
   return (
-    <div>
+    <div
+      className="min-h-svh"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right bottom, #09213f, #0b1d37, #0c1a30, #0d1629, #0c1222)",
+      }}
+    >
       <Navbar />
       <Outlet />
     </div>

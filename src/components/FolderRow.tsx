@@ -5,6 +5,7 @@ import { folders_table } from "~/server/db/schema";
 import { deleteFolder } from "~/server/actions/folder";
 import { refreshDriveContent } from "~/queries/drive";
 
+import folderIcon from "/folder-icon.png";
 import { Ellipsis, Folder as FolderIcon, Trash2Icon } from "lucide-react";
 import Swal from "sweetalert2";
 import { renameFolder } from "~/server/actions/folder";
@@ -17,6 +18,16 @@ export function FolderRow(props: {
   currentFolderId: number;
 }) {
   const { folder, userId, isRoot, currentFolderId } = props;
+
+  const formattedDate = new Date(folder.createdAt).toLocaleDateString(
+    undefined,
+    {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    }
+  );
+
   const queryClient = useQueryClient();
 
   const handleRenameFolder = async () => {
@@ -28,7 +39,7 @@ export function FolderRow(props: {
       confirmButtonText: "Rename",
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      background: "#181818",
+      background: "#0C1324",
       color: "#fff",
       inputValidator: (value) => {
         if (!value) return "Folder name cannot be empty";
@@ -45,7 +56,7 @@ export function FolderRow(props: {
           title: "Rename Failed",
           text: err.message || "Something went wrong",
           icon: "error",
-          background: "#181818",
+          background: "#0C1324",
           color: "#fff",
         });
       }
@@ -61,7 +72,7 @@ export function FolderRow(props: {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-      background: "#181818",
+      background: "#0C1324",
       color: "#fff",
       iconColor: "orange",
     });
@@ -75,7 +86,7 @@ export function FolderRow(props: {
         title: "Deleted!",
         text: "Your folder has been deleted.",
         icon: "success",
-        background: "#181818",
+        background: "#0C1324",
         color: "#fff",
       });
 
@@ -94,37 +105,40 @@ export function FolderRow(props: {
   return (
     <li
       key={folder.id}
-      className="border-b border-gray-700 px-6 py-4 last:border-b-0"
+      className="border-b border-slate-800 px-6 py-4 last:border-b-0 hover:bg-slate-800/20 transition-colors"
     >
       <div className="grid grid-cols-12 items-center gap-4">
-        {/* Folder name & link */}
-        <div className="col-span-6 flex items-center">
+        {/*Table left */}
+        <div className="col-span-10 sm:col-span-6 flex items-center">
           <Link
             to="/drive/$folderId"
             params={{ folderId: String(folder.id) }}
-            className="flex items-center text-gray-100 hover:text-blue-400 truncate"
+            className="flex items-center text-gray-100 hover:text-blue-400 truncate gap-2"
           >
-            <FolderIcon className="mr-3 shrink-0" size={20} />
+            {/* <img src={folderIcon} alt="" className="size-6" /> */}
+            <FolderIcon
+              className="mr-2 shrink-0 text-blue-600 fill-blue-800"
+              size={20}
+            />
             {folder.name}
           </Link>
         </div>
 
-        {/* Type */}
-        <div className="col-span-6 flex justify-evenly">
-          <div className=" text-gray-400">Folder</div>
-
-          {/* Size (or placeholder) */}
-          <div className=" text-gray-400 text-end"></div>
-
-          {/* Options dropdown */}
-          <div className=" text-gray-400 flex justify-center">
+        {/* Table right */}
+        <div className="col-span-2 sm:col-span-6 grid grid-cols-12 text-gray-400">
+          <div className="hidden lg:flex col-span-3">Folder</div>
+          <div className="hidden md:flex col-span-4 lg:col-span-3"></div>
+          <div className=" hidden sm:flex col-span-6 md:col-span-4 lg:col-span-3">
+            {formattedDate}
+          </div>
+          <div className="flex justify-center col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3">
             <div className="dropdown dropdown-end text-center">
               <button tabIndex={0} className="btn btn-ghost btn-xs">
                 <Ellipsis size={18} />
               </button>
               <ul
                 tabIndex={0}
-                className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-28 z-50"
+                className="dropdown-content menu p-2 bg-slate-800 border border-slate-600 shadow-lg rounded-md w-20 z-50"
               >
                 <li>
                   <button onClick={() => handleRenameFolder()}>Edit</button>
